@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tab_panel_bg"
+        android:layout_above="@+id/ll_bottom_tab">
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/tab_panel_divider">
+        </View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@color/tab_panel_bg"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/main_tab_padding"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imv_tab_zhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/main_tab_imv_height"
+                    android:src="@mipmap/zhihu_normal_icon"/>
+
+                <TextView
+                    android:id="@+id/tv_tab_zhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="知乎"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/main_tab_padding"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imv_tab_music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/main_tab_imv_height"
+                    android:src="@mipmap/music_normal_icon"/>
+
+                <TextView
+                    android:id="@+id/tv_tab_music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="云音乐"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/main_tab_padding"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imv_tab_gank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/main_tab_imv_height"
+                    android:src="@mipmap/gank_normal_icon"/>
+
+                <TextView
+                    android:id="@+id/tv_tab_gank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="干货"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
