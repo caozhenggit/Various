@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@color/zhihu_item_divider"/>
+
+    <com.cz.various.widget.ZhiHuAdvertsView
+        android:id="@+id/id_iv_ad"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="matrix"
+        android:src="@mipmap/meizi"/>
+
+</LinearLayout>

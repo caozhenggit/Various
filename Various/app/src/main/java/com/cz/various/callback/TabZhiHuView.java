@@ -1,5 +1,6 @@
 package com.cz.various.callback;
 
+import com.cz.various.bean.ZhiHuBean;
 import com.cz.various.mvp.BaseView;
 
 /**
@@ -10,4 +11,6 @@ import com.cz.various.mvp.BaseView;
  */
 
 public interface TabZhiHuView extends BaseView {
+
+    void getDataDone(ZhiHuBean bean);
 }

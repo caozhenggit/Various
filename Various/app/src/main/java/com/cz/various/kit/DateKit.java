@@ -16,7 +16,7 @@ public class DateKit {
     private static SimpleDateFormat m = new SimpleDateFormat("MM", Locale.getDefault());
     private static SimpleDateFormat d = new SimpleDateFormat("dd", Locale.getDefault());
     private static SimpleDateFormat md = new SimpleDateFormat("MM-dd", Locale.getDefault());
-    private static SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private static SimpleDateFormat ymd = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
     private static SimpleDateFormat ymdDot = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
     private static SimpleDateFormat ymdhms = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     private static SimpleDateFormat ymdhmss = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());

@@ -5,6 +5,11 @@
     android:layout_height="wrap_content"
     android:background="@color/app_color_zhihu">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@color/zhihu_item_divider"/>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="45dp"
@@ -97,10 +102,5 @@
             android:text="关注问题"
             android:gravity="center"/>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="7dp"
-        android:background="@color/zhihu_item_divider"/>
 
 </LinearLayout>

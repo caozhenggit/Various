@@ -34,4 +34,5 @@
     <color name="zhihu_item_title_text">#000000</color>
     <color name="zhihu_item_content_text">#515151</color>
     <color name="zhihu_item_divider">#ececec</color>
+    <color name="zhihu_item_refresh_text">#1296db</color>
 </resources>
