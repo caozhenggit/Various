@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/zhihu_item_divider">
+
+    <TextView
+        android:id="@+id/tv_top_toast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/zhihu_item_refresh_text"
+        android:layout_marginTop="7dp"
+        android:padding="5dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:text="本次共有8条更新"/>
+
+</LinearLayout>

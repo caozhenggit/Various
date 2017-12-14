@@ -1,6 +1,7 @@
 package com.cz.various;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,10 +43,12 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
     RecyclerView mRecyclerView;
 
     private int dateCount = 0;
+    private int refreshDataCount = 0;
 
     private static int ITEM_REFRESH = 0;
-    private static int ITEM_CONTENT = 1;
-    private static int ITEM_ADVERTISING1 = 2;
+    private static int ITEM_REFRESH_TOAST = 1;
+    private static int ITEM_CONTENT = 2;
+    private static int ITEM_ADVERTISING1 = 3;
 
     private MultiItemTypeAdapter<ZhiHuBean.StoriesBean> mAdapter;
     private List<ZhiHuBean.StoriesBean> mDatas = new ArrayList<ZhiHuBean.StoriesBean>();
@@ -153,6 +156,22 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
                 });
             }
         });
+        mAdapter.addItemViewDelegate(ITEM_REFRESH_TOAST, new ItemViewDelegate<ZhiHuBean.StoriesBean>() {
+            @Override
+            public int getItemViewLayoutId() {
+                return R.layout.item_refresh_toast;
+            }
+
+            @Override
+            public boolean isForViewType(ZhiHuBean.StoriesBean item, int position) {
+                return item.getType() == ITEM_REFRESH_TOAST;
+            }
+
+            @Override
+            public void convert(ViewHolder holder, ZhiHuBean.StoriesBean item, int position) {
+                    holder.setText(R.id.tv_top_toast, "本次共有"+ refreshDataCount + "条数据更新");
+            }
+        });
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -205,9 +224,27 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
             mDatas.add(5, mStoriesBean2);
         }
 
+        //更新数据条数
+        ZhiHuBean.StoriesBean mStoriesBean3 = new ZhiHuBean.StoriesBean();
+        mStoriesBean3.setType(ITEM_REFRESH_TOAST);
+        mDatas.add(0, mStoriesBean3);
+
+        refreshDataCount = bean.getStories().size();
+        topToast();
+
         mAdapter.notifyDataSetChanged();
         mSwipeRefreshLayout.setRefreshing(false);
 
         mLinearLayoutManager.scrollToPosition(0);
+    }
+
+    private void topToast(){
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                mDatas.remove(0);
+                mAdapter.notifyDataSetChanged();
+            }
+        }, 2000);
     }
 }
