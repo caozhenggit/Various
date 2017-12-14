@@ -1,22 +1,24 @@
 package com.cz.various;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.cz.various.bean.ZhiHuBean;
 import com.cz.various.callback.TabZhiHuView;
 import com.cz.various.mvp.AppFragment;
 import com.cz.various.presenter.TabZhiHuPresenter;
+import com.cz.various.widget.CircleImageView;
 import com.cz.various.widget.ZhiHuAdvertsView;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -106,6 +108,11 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
             @Override
             public void convert(ViewHolder holder, ZhiHuBean.StoriesBean item, int position) {
                 holder.setText(R.id.tv_title, item.getTitle());
+                CircleImageView mCircleImageView = holder.getView(R.id.imv_user_icon);
+
+                Glide.with(getActivity())
+                        .load(item.getImages().get(0))
+                        .into(mCircleImageView);
             }
         });
         mAdapter.addItemViewDelegate(ITEM_ADVERTISING1, new ItemViewDelegate<ZhiHuBean.StoriesBean>() {
@@ -150,6 +157,22 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                if(mDatas.get(position).getType() == ITEM_CONTENT){
+                    Intent intentContent = new Intent(getActivity(), ZhiHuContentActivity.class);
+                    intentContent.putExtra("content_id", mDatas.get(position).getId());
+                    startActivity(intentContent);
+                }
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -164,25 +187,23 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
             }
         }
 
-        Collections.reverse(mDatas);
-
-        //添加刷新item
-        ZhiHuBean.StoriesBean mStoriesBean1 = new ZhiHuBean.StoriesBean();
-        mStoriesBean1.setType(ITEM_REFRESH);
-        mDatas.add(mStoriesBean1);
-
-        //添加广告
-        ZhiHuBean.StoriesBean mStoriesBean2 = new ZhiHuBean.StoriesBean();
-        mStoriesBean2.setType(ITEM_ADVERTISING1);
-        mDatas.add(mStoriesBean2);
-
         //添加数据, 设置类型为正文
         for(int i = 0; i < bean.getStories().size(); i++){
             bean.getStories().get(i).setType(ITEM_CONTENT);
         }
-        mDatas.addAll(bean.getStories());
+        mDatas.addAll(0, bean.getStories());
 
-        Collections.reverse(mDatas);
+        //添加刷新item
+        ZhiHuBean.StoriesBean mStoriesBean1 = new ZhiHuBean.StoriesBean();
+        mStoriesBean1.setType(ITEM_REFRESH);
+        mDatas.add(bean.getStories().size(), mStoriesBean1);
+
+        //添加广告item
+        if(mDatas.size() > 10){
+            ZhiHuBean.StoriesBean mStoriesBean2 = new ZhiHuBean.StoriesBean();
+            mStoriesBean2.setType(ITEM_ADVERTISING1);
+            mDatas.add(5, mStoriesBean2);
+        }
 
         mAdapter.notifyDataSetChanged();
         mSwipeRefreshLayout.setRefreshing(false);
