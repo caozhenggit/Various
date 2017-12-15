@@ -15,6 +15,7 @@ import com.cz.various.mvp.AppFragment;
 import com.cz.various.presenter.TabZhiHuPresenter;
 import com.cz.various.widget.CircleImageView;
 import com.cz.various.widget.ZhiHuAdvertsView;
+import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -47,8 +48,10 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
 
     private static int ITEM_REFRESH = 0;
     private static int ITEM_REFRESH_TOAST = 1;
-    private static int ITEM_CONTENT = 2;
-    private static int ITEM_ADVERTISING1 = 3;
+    private static int ITEM_ADVERTISING1 = 2;
+    private static int ITEM_CONTENT = 3;
+    private static int ITEM_CONTENT_LIST = 4;
+
 
     private MultiItemTypeAdapter<ZhiHuBean.StoriesBean> mAdapter;
     private List<ZhiHuBean.StoriesBean> mDatas = new ArrayList<ZhiHuBean.StoriesBean>();
@@ -96,6 +99,30 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
     }
 
     private void initData(){
+        initAdapter();
+
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                if(mDatas.get(position).getType() == ITEM_CONTENT){
+                    Intent intentContent = new Intent(getActivity(), ZhiHuContentActivity.class);
+                    intentContent.putExtra("content_id", mDatas.get(position).getId());
+                    startActivity(intentContent);
+                }
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
+    }
+
+    private void initAdapter(){
         mAdapter = new MultiItemTypeAdapter<ZhiHuBean.StoriesBean>(getActivity(), mDatas);
         mAdapter.addItemViewDelegate(ITEM_CONTENT, new ItemViewDelegate<ZhiHuBean.StoriesBean>() {
             @Override
@@ -116,6 +143,36 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
                 Glide.with(getActivity())
                         .load(item.getImages().get(0))
                         .into(mCircleImageView);
+            }
+        });
+        mAdapter.addItemViewDelegate(ITEM_CONTENT_LIST, new ItemViewDelegate<ZhiHuBean.StoriesBean>() {
+            @Override
+            public int getItemViewLayoutId() {
+                return R.layout.item_zhihu_3;
+            }
+
+            @Override
+            public boolean isForViewType(ZhiHuBean.StoriesBean item, int position) {
+                return item.getType() == ITEM_CONTENT_LIST;
+            }
+
+            @Override
+            public void convert(ViewHolder holder, ZhiHuBean.StoriesBean item, int position) {
+                List<Integer> list = new ArrayList<Integer>();
+                for(int i = 0; i < 10; i++){
+                    list.add(i);
+                }
+                RecyclerView mRecyclerView = holder.getView(R.id.item_recyclerView);
+                CommonAdapter<Integer> commonAdapter = new CommonAdapter<Integer>(getActivity(), R.layout.item_zhihu_list_item, list) {
+                    @Override
+                    protected void convert(ViewHolder holder, Integer integer, int position) {
+
+                    }
+                };
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                mRecyclerView.setLayoutManager(linearLayoutManager);
+                mRecyclerView.setAdapter(commonAdapter);
             }
         });
         mAdapter.addItemViewDelegate(ITEM_ADVERTISING1, new ItemViewDelegate<ZhiHuBean.StoriesBean>() {
@@ -169,27 +226,7 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
 
             @Override
             public void convert(ViewHolder holder, ZhiHuBean.StoriesBean item, int position) {
-                    holder.setText(R.id.tv_top_toast, "本次共有"+ refreshDataCount + "条数据更新");
-            }
-        });
-
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                if(mDatas.get(position).getType() == ITEM_CONTENT){
-                    Intent intentContent = new Intent(getActivity(), ZhiHuContentActivity.class);
-                    intentContent.putExtra("content_id", mDatas.get(position).getId());
-                    startActivity(intentContent);
-                }
-            }
-
-            @Override
-            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                return false;
+                holder.setText(R.id.tv_top_toast, "本次共有"+ refreshDataCount + "条数据更新");
             }
         });
     }
@@ -222,6 +259,10 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
             ZhiHuBean.StoriesBean mStoriesBean2 = new ZhiHuBean.StoriesBean();
             mStoriesBean2.setType(ITEM_ADVERTISING1);
             mDatas.add(5, mStoriesBean2);
+
+            ZhiHuBean.StoriesBean mStoriesBean4 = new ZhiHuBean.StoriesBean();
+            mStoriesBean4.setType(ITEM_CONTENT_LIST);
+            mDatas.add(3, mStoriesBean4);
         }
 
         //更新数据条数

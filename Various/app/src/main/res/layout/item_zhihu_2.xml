@@ -10,11 +10,33 @@
         android:layout_height="7dp"
         android:background="@color/zhihu_item_divider"/>
 
-    <com.cz.various.widget.ZhiHuAdvertsView
-        android:id="@+id/id_iv_ad"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="matrix"
-        android:src="@mipmap/meizi"/>
+        android:layout_height="200dp">
+
+        <com.cz.various.widget.ZhiHuAdvertsView
+            android:id="@+id/id_iv_ad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="matrix"
+            android:src="@mipmap/meizi"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="#40000000"
+                android:text="@string/advertising"/>
+        </RelativeLayout>
+
+    </FrameLayout>
 
 </LinearLayout>
