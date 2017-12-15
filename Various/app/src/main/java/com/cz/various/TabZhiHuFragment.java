@@ -162,7 +162,7 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
                 for(int i = 0; i < 10; i++){
                     list.add(i);
                 }
-                RecyclerView mRecyclerView = holder.getView(R.id.item_recyclerView);
+                RecyclerView mItemRecyclerView = holder.getView(R.id.item_recyclerView);
                 CommonAdapter<Integer> commonAdapter = new CommonAdapter<Integer>(getActivity(), R.layout.item_zhihu_list_item, list) {
                     @Override
                     protected void convert(ViewHolder holder, Integer integer, int position) {
@@ -171,8 +171,8 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
                 };
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                mRecyclerView.setLayoutManager(linearLayoutManager);
-                mRecyclerView.setAdapter(commonAdapter);
+                mItemRecyclerView.setLayoutManager(linearLayoutManager);
+                mItemRecyclerView.setAdapter(commonAdapter);
             }
         });
         mAdapter.addItemViewDelegate(ITEM_ADVERTISING1, new ItemViewDelegate<ZhiHuBean.StoriesBean>() {
@@ -258,11 +258,11 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
         if(mDatas.size() > 10){
             ZhiHuBean.StoriesBean mStoriesBean2 = new ZhiHuBean.StoriesBean();
             mStoriesBean2.setType(ITEM_ADVERTISING1);
-            mDatas.add(5, mStoriesBean2);
+            mDatas.add(3, mStoriesBean2);
 
             ZhiHuBean.StoriesBean mStoriesBean4 = new ZhiHuBean.StoriesBean();
             mStoriesBean4.setType(ITEM_CONTENT_LIST);
-            mDatas.add(3, mStoriesBean4);
+            mDatas.add(1, mStoriesBean4);
         }
 
         //更新数据条数
@@ -285,6 +285,8 @@ public class TabZhiHuFragment extends AppFragment<TabZhiHuPresenter> implements 
             public void run() {
                 mDatas.remove(0);
                 mAdapter.notifyDataSetChanged();
+
+                mLinearLayoutManager.scrollToPosition(0);
             }
         }, 2000);
     }
